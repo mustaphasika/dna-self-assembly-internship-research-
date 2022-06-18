@@ -1,0 +1,18 @@
+\babel@toc {french}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{4}{}%
+\contentsline {section}{\numberline {2}Annonce de plan}{5}{}%
+\contentsline {section}{\numberline {3}Présentation du IBISC}{5}{}%
+\contentsline {section}{\numberline {4}L'objet de ce stage et les différentes missions effectuées}{6}{}%
+\contentsline {section}{\numberline {5}Documents traités}{6}{}%
+\contentsline {section}{\numberline {6}Résume du travail effectué}{6}{}%
+\contentsline {subsection}{\numberline {6.1}Modèle abstraits d'auto assemblage}{6}{}%
+\contentsline {subsection}{\numberline {6.2}Rappel : Grammaire de chaînes de caractères }{7}{}%
+\contentsline {subsection}{\numberline {6.3}Grammaire de tableaux }{8}{}%
+\contentsline {subsubsection}{\numberline {6.3.1}Derivation modes}{8}{}%
+\contentsline {subsubsection}{\numberline {6.3.2}Exemple}{9}{}%
+\contentsline {subsection}{\numberline {6.4}Conversion aTAM $\rightarrow $ grammaire de tableaux}{10}{}%
+\contentsline {subsubsection}{\numberline {6.4.1}Preuve}{10}{}%
+\contentsline {section}{\numberline {7}Conclusion}{11}{}%
+\contentsline {section}{\numberline {8}Bilan de stage}{12}{}%
+\contentsline {subsection}{\numberline {8.1}Compétences acquises}{12}{}%
+\contentsline {subsection}{\numberline {8.2}Difficultés rencontrées et leur résolution}{12}{}%

@@ -1,0 +1,472 @@
+%documentclass[12pt,a4paper]{report}
+\documentclass[12pt]{article}
+%\documentclass[french]{article}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+\usepackage{mathtools}
+\usepackage{ragged2e}
+\usepackage{tikz}
+\usepackage{amsmath , amssymb}
+\usepackage{amsfonts} 
+\usepackage{lmodern}
+\usepackage[none]{hyphenat}
+\usepackage{graphics} 
+\usepackage[a4paper,textheight=25cm]{geometry}
+\usepackage{babel}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{fullpage}
+\usepackage{eso-pic}
+\usepackage{tikz}
+\usepackage{caption} 
+\usepackage{float}
+\usepackage[none]{hyphenat}
+\usetikzlibrary{positioning,arrows.meta,automata,shapes}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\pagestyle{plain}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\newenvironment*{remerciements}{%
+	\renewcommand*{\abstractname}{Remerciements}
+	\begin{abstract}
+	}{\end{abstract}}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\blap}[1]{\vbox to 0pt{#1\vss}}
+\newcommand\AtUpperLeftCorner[3]{%
+	\put(\LenToUnit{#1},\LenToUnit{\dimexpr\paperheight-#2}){\blap{#3}}%
+}
+\newcommand\AtUpperRightCorner[3]{%
+	\put(\LenToUnit{\dimexpr\paperwidth-#1},\LenToUnit{\dimexpr\paperheight-#2}){\blap{\llap{#3}}}%
+}
+
+\newcommand{\source}[1]{\caption*{Source: {#1}} }
+
+\begin{document}
+	\sloppy
+	
+	\begin{center}
+		\vfill
+		\includegraphics[width=0.7\textwidth]{/home/gngmus/Etude/Stage/rapport/logo.png}\\
+		\large{\textbf{Université d'Evry Val d'Essonne \\
+				Filière: L3ASR}} \\
+		\vfill
+		
+		
+		\fbox{
+			\begin{minipage}{0.8\textwidth}
+				\centering\large\textbf{Auto Assemblage d'ADN: \\
+					aTAM VS Grammaires de tableaux}
+		\end{minipage}}
+		\vfill
+		\LARGE{Rapport de stage effectué au laboratoire ibisc} \\
+		presenté par: \\
+		\textbf{SI KADDOUR Mustapha}\\
+		durée : 2 mois
+		\vfill
+		Encadré par:\\
+		prof. Sergui IVANOV
+		
+		\vfill
+		\emph{Année universitaire: 2021-2022}
+		
+	\end{center}
+	
+	
+	\pagebreak
+	\AddToShipoutPicture{
+					\AtUpperRightCorner{1.5cm}{1cm}{\includegraphics[width=4.5cm]{/home/gngmus/Etude/Stage/rapport/logo.png}}}
+	\begin{remerciements}
+		Tout d'abord, je remercie très vivement M. Sergui IVANOV pour m'avoir encadré et conseillé au cours de mon stage et pour m'avoir consacré de son temps.\\
+		
+		Je remercie ensuite tous les membres de l'équipe pour leur accueil très chaleureux et les autres stagiaires pour tous les bons moments passés ensemble.	\\
+		
+		Enfin, je remercie grandement tout le personnel du laboratoire ibisc pour leur engagement et leur services afin qu'on puisse travailler dans les meilleures conditions possible.\\
+	\end{remerciements}
+	
+	
+	\newpage
+	\tableofcontents
+	\newpage
+	
+	\section{Introduction}
+	
+	L'ADN se présente sous la forme d'un assemblage en double hélice composée de deux chaînes nucléiques complémentaires appelées brins. Les sous-unités qui forment ces chaînes sont des nucléotides dont la composition est un groupement phosphate lié à un sucre (désoxyribose), lui-même lié à une base azotée qui peut être de quatre types : Adénine (A), Guanine (G), Cytosine (C), et Thymine (T). Il est le support de l'hérédité ou bien l'information génétique, c'est à dire qu'il porte des milliers de gènes sous la forme de succession de nucléotides.\\
+	
+	L'assemblage  des  atomes  ou  des  molécules  individuelles  détermine  les  propriétés  physiques  et  chimiques  d'un  matériau. Si  ces  propriétés  peuvent  être  manipulées  avec  précision,  une  variété  de  matériaux  précieux  avec  de  nouvelles  caractéristiques peuvent  être  synthétisées et adaptées  spécifiquement  à  une  application  donnée.  Cependant,  jusqu'à  présent,  cela  reste  un défi majeur  dans  les  domaine  de  la  chimie  et  de  la  science  des  matériaux. La  nanotechnologie  de  l'ADN  offre  la  possibilité  de  personnaliser  ces  propriétés.\\
+	
+	Dans  les  années  1980,  le  professeur  Seeman  a  d'abord  proposé  d'utiliser  des  brins  d'ADN  pour  s'auto-assembler  de  bas  en  haut  afin de former des cristaux. Pour réaliser une synthèse et un contrôle raffinés plus complexes, plusieurs méthodes d'assemblage ont été proposées: en utilisant les tuiles d'ADN, les briques d'ADN et l'ADN origami.\\
+	
+	Cette technologie vise  à  développer  des  composants et  des  systèmes  à  l'échelle  nanométrique  en  grandes  quantités et à  un  coût  faible. Les  méthodes  traditionnelles  reposent  sur la commande externe de  grandes  machines    pour  extraire des  substances en  vrac afin de créer des motifs, ce  sont des techniques puissantes mais elles sont entravées par leurs coûts cher et aussi par des limitations de taille.\\
+	
+	Le modèle d'auto-assemblage le plus étudié est le modèle abstrait (aTAM), introduit par Winfree comme un modèle informatique d'auto-assemblage basé sur des tuiles d'ADN. Ce modèle est une version algorithmique des pavages de Wang et peut être considéré comme un automate cellulaire asynchrone.\\
+	
+	\begin{figure}[h!]
+	 \centering
+			\includegraphics[width=0.35\textwidth]{/home/gngmus/Etude/Stage/rapport/dna_composition.jpg}
+			  \caption{La structure de la molécule d'ADN} \label{imageLabel}
+			\source{\scriptsize https://www.police-scientifique.com/adn/structure-et-principe-de-base}
+		
+	\end{figure}
+	
+	\pagebreak
+	\section{Annonce de plan}
+	À travers ce rapport nous verrons dans un premier temps une description du laboratoire, puis l'objet de ce stage et les différentes missions effectuées, le travail réalisé et les résultats obtenus et par la fin un bilan général.\\
+	
+	\section{Présentation du IBISC}
+	Le laboratoire IBISC (Informatique, BioInformatique, Systèmes Complexes EA 4526) est un laboratoire de l’Université d’Évry Paris-Saclay. Il est implanté sur deux sites de l’université : IBGBI et PELVOUX et rattaché à deux UFRs scientifiques: l’UFR Sciences Fondamentales et Appliquées (SFA) et l’UFR Sciences et Technologies (ST). \\
+	
+	IBISC regroupe plusieurs enseignants-chercheurs (56 enseignants chercheurs permanents, 3 chercheurs associés, 4 BIATSS, 39 doctorants, 1 post-doc, on peut compter un effectif total de plus de 100 personnes en 2019.) de l’UEVE qui sont impliqué dans la gouvernance de l’université (7 Vice-Présidents, des membres élus au Conseil d’Administration, à la Commission de la Formation et de la Vie Universitaire, à la Commission de la Recherche, 1 directeur d’IUT, 1 directeur d’UFR, 8 directeurs de départements d’enseignement en 2017).\\
+	
+	Ses activités de recherche s'articulent autour du traitement de la modélisation, la conception, la simulation et la validation des systèmes biologiques complexes, on peut trouver 4 principales thèmes : 
+	\begin{enumerate}
+		\item Bioinformatique et systèmes biologiques.
+		\item Assistance aux personnes, signaux et images pour le biomédical.
+		\item Systèmes autonomes intelligents.
+		\item Systèmes ouverts et sûrs.
+	\end{enumerate} 
+	Ces thèmes sont gérés par 4 équipes de recherche : AROBAS, COSMO, IRA2 et SIAM.\\
+	
+	L'IBISC développe des interactions avec d'autres laboratoires UEVE du secteur de la santé, affiliés à Génopole, ENSIEE et Télécom SudParis. Il développe aussi des liens avec ses UFRs de rattachement (SFA et ST) ce qui permettre une gestion cohérente des ressources humaines et matérielles à travers des plateformes de recherche et d’enseignement (volière, robots, cube immersif 3D, etc.).\\
+	
+	Outre les activités de santé, IBISC est également actif dans le domaine de la robotique aérienne et de la mobilité intelligente.\\
+	
+	
+	\pagebreak
+	\section{L'objet de ce stage et les différentes missions effectuées}
+	\textbf{L'objectif} de ce stage est de comparer le modèle classique d'auto-assemblage de tuiles (Abstract Tile Assembly Model, aTAM) avec les grammaires de tableaux, qui sont un outil classique mais pas très utilisé des langages formels.\\
+	
+	\textbf{Différentes sortes d’activités m’ont été confiées :} 
+	\begin{enumerate}
+		\item Découvrir les motivations et les aspects pratique d'auto-assemblage d'ADN à travers la lecture des articles.
+		\item Découvrir et analyser le modèle aTAM à travers l'étude de l'article "The program-size complexity of self-assembled paths de Pierre-Étienne Meunier, Damien Regnault et Damien Woods".
+		\item Établir l'état de l'art des travaux pertinents autour des grammaires de tableaux.
+		\item Poser le théorème de la conversion aTAM $\rightarrow$ Grammaires de tableaux, et le prouver.
+		\item Apprendre le langage de programmation Racket et Réaliser un simulateur des grammaires de tableaux.
+	\end{enumerate} 
+	\section{Documents traités}
+	\begin{enumerate}
+		\item Algorithmic self assembly dna sierpinski triangles de Paul W. K. Rothemund, Nick Papadakis, Erik Winfree.
+		\item The program-size complexity of self-assembled paths de Pierre-Étienne Meunier, Damien Regnault et Damien Woods.
+		\item Array Insertion and Deletion P Systems de Henning Fernau, Rudolf Freund, Sergiu Ivanov, Markus L. Schmid, et K.G. Subramanian.
+	\end{enumerate}
+	\section{Résume du travail effectué}
+	\subsection{Modèle abstraits d'auto assemblage}
+	Le modèle abstrait d'assemblage de tuiles a été introduit par Winfree en 1998.
+	\begin{definition}
+		une tuile se représente sous forme d'un carré unitaire à quatre côtés, chacun composé d'un type de colle (liaisons d'hydrogène) qui peut être forte ou faible et d'une force entière non négative. Les côtés d'une tuile sont respectivement appelés nord, est, sud et ouest, comme illustré dans l'image suivante : \\
+		\begin{center}
+			\begin{tikzpicture}
+				\pgfmathsetmacro\x{1}     
+				\pgfmathsetmacro\y{1}
+				\draw (0,0) rectangle  +(\x,\y); 
+				\node[above] at (.5*\x,\y){$Nord$};
+				\node[above] at (0.5\x,-0.5*\y){$Sud$};
+				\node[above] at (-0.6\x,0.3\y){$Ouest$};
+				\node[above] at (1.4\x,0.3\y){$Est$};
+			\end{tikzpicture}\\
+		\end{center} 
+	\end{definition} 
+	
+	il existe deux types de ce modèle: 
+	\begin{enumerate}
+		\item \textbf{Le modèle non coopératif} (de température 1): Les tuiles peuvent s'attacher à l'assemblage si au moins le type de l'un de leurs côtés correspond à un type d'un côté de l'assemblage adjacent à la position où elles s'attachent (elles n'ont pas besoin d'attendre que d'autres liaisons apparaissent adjacentes à leur position d'attachement).\\
+		
+		\item \textbf{Le modèle coopératif} ( de temperature 2): Aucune tuile ne peut être ajoutée à l'assemblage tant que les deux tuiles précédentes ne sont pas déjà présentes.
+		
+		- Il existe deux types de liens : forts et faibles. une tuile peut s'attacher à un assemblage par un côté si ce côté forme une liaison forte ("force 2") avec l'assemblage, ou bien si deux de ses côtés correspondent chacun avec une liaison faible ("force 1").
+		
+		- La fixation d'une tuile par deux colles faibles ne peut se produire qu'après la présence des deux tuiles voisines, donc le système sera obligé d'attendre plutôt que de continuer avec des informations fausses ou incomplètes.\\
+	\end{enumerate}
+	
+	Nous allons étudier la restriction de ce modèle donc \textbf{le modèle non coopératif}.\\
+	
+	\begin{definition}
+		Un assemblage est une fonction $ f : \mathbb{Z}^{2 } \rightarrow T $  où $T$ est un ensemble de types de tuiles. On note $\mathcal{A}^{T}$ l'ensemble de tous les assemblages sur l'ensemble de types de tuiles $T$. Deux types de tuiles dans un assemblage sont dits attachés de manière stable, si les types de colle sur leurs côtés attenants sont égaux et ont une force $\geq$ 1.\\
+	\end{definition}
+	
+	\begin{definition}
+		Un système d'assemblage de tuiles est un triple $\mathcal{T}=(T,\sigma,1)$ où $T$ est un ensemble fini de types de tuiles, $\sigma$ est un assemblage $\tau$-stable appelé la graine et $\tau \in \mathbb{N}$ est la température. Tout au long de cet article, $\tau$ = 1. \\
+	\end{definition}
+	
+	
+	
+	
+	\subsection{Rappel : Grammaire de chaînes de caractères }
+	\begin{definition}
+		Une grammaire (séquentielle) $G$ est un 5-uplet $(O, O_{T} , w, P, \Longrightarrow_{G}$) où $O$ est un ensemble d'objets, $O_{T} \subseteq O$ est un ensemble d'objets terminaux, $\mathit{w} \in O$ est l'axiome (objet de départ), P est un ensemble fini de règles, et $\Longrightarrow_{G} \; \subseteq O \times O $ est la relation de dérivation de $G$.
+		Une règle $p \in P$  est dite applicable à un objet $x \in O$ si et seulement s'il existe au moins un objet $y \in O$ tel que $(x,y)\Longrightarrow_{p}$, on écrit aussi $x\Longrightarrow_{p} y$.
+		La relation de dérivation $\Longrightarrow_{G}$ est l'union de tous les $\Longrightarrow_{p}$, c'est-à-dire $\Longrightarrow_{G} = \cup_{p \in P} \Longrightarrow_{p}$. La clôture réflexive et transitive de $\Longrightarrow_{G}$ est notée  $\overset{*}\Longrightarrow_{G}$. \\
+	\end{definition}
+	
+	\begin{definition}
+		Une grammaire de chaînes de caractères GS est représentée par ${((N \cup T)^{*} , T^{*}, w, P,\Longrightarrow_{p} )}$ où N est l'alphabet des symboles non terminaux, T est l'alphabet des symboles terminaux, $N \cap T = \emptyset $,  $ w \in (N \cup T)^{+}$ est l'axiome, P est un ensemble fini de règles de réécriture de chaînes, et la relation de dérivation $\Longrightarrow_{Gs}$ est la relation classique pour les grammaires de chaînes définies sur $V^{*} \times V^{*}$ avec $ V := N \cup T$.\\
+	\end{definition}
+	
+	\subsection{Grammaire de tableaux }
+	\begin{definition}
+		Soit $d \in \mathbb{N} $, un tableau $\mathcal{A}$ de dimension $d$ sur un alphabet $V$ est une fonction $\mathcal{A} : \mathbb{Z}^{*} \rightarrow V \cup  {\#} $ où $shape(\mathcal{A}) = \{v \in \mathbb{Z} \mid A(v) \ne \# \} $  est fini et ${\#} \notin V $ est appelé le fond ou le symbole vide. On écrit généralement  $ \mathcal{A} = \{(v, \mathcal{A}(v)) \mid v  \in shape(\mathcal{A})\}$. \\
+		
+		L'ensemble de tous les tableaux $d$-dimensionnels sur $V$ est noté $V^{*d} $. Le tableau vide dans $V^{*d} $ est noté $\rotatebox[origin=c]{180}{V}_{d}$. De plus, on définit $V^{+d}$ = $V^{*d} \setminus \{ \rotatebox[origin=c]{180}{V}_{d}\} $.\\
+		
+		La translation $\mathcal{T}_{v} : \mathbb{Z}^{d} \rightarrow \mathbb{Z}^{d} $ est défini par $\mathcal{T}_{v}(w) = w + v$ pour tout $w \in \mathbb{Z}^{d} $.\\
+		
+		Pour tout tableau $\mathcal{A} \in  V^{*d} $ on définit $\mathcal{T}_{v}(A)$ , le tableau d-dimensionnel translaté par v, par $(\mathcal{T}_{v}(\mathcal{A}))(w) = \mathcal{A}(w-v)$ pour tout $w \in \mathbb{Z}^{d}$. \\
+		
+		La classe d'équivalence $[\mathcal{A}]$ d'un tableau $\mathcal{A} \in  V^{*d} $ est définie par : \\
+		
+		{\par\centering 	{$[\mathcal{A}] = \{ \mathcal{B} \in V^{*d} \mid \mathcal{B} = \mathcal{T}_{v}(\mathcal{A})   \; \text{pour}  \; v \in \mathbb{Z}^{d}  \} $} \par} 
+		
+		\medskip
+		
+		L'ensemble de toutes les classes d'équivalence des tableaux d-dimensionnels sur $V$ par rapport aux translations linéaires est noté $[V^{*d}]$. \\
+	\end{definition}
+	
+	\begin{definition}
+		Une grammaire de tableau à d-dimensions $G_{A}$ est représentée par : \\
+		{\par\centering 	$([(N \cup T^{*d})] , [T^{*d}] , [\mathcal{A}_{0}], P , \Longrightarrow G_{A})$ \par} 
+		
+		\medskip
+		
+		où $N$ est l'alphabet des symboles non terminaux, $T$ est l'alphabet des symboles terminaux, $N \cap T = \emptyset , \mathcal{A}_{0} \in (N \cup T)^{*d}$ est le tableau de départ, $P$ est un ensemble fini de règles de tableau à d dimensions sur V , $ V := N \cup T, \text{et} \Longrightarrow G_{A} \subseteq [(N \cup T)^{*d}] \times	[(N \cup T)^{*d}] $ est la relation de dérivation induite par les règles de tableau dans $P$ .\\
+		
+		Une règle de tableau classique à d dimensions p sur $V$ est un triplet $(W, \mathcal{A}_{1}, \mathcal{A}_{2})$ où $W \subseteq \mathbb{Z}_{d}$ est un ensemble fini,  $\mathcal{A}_{1}$ et $\mathcal{A}_{2}$ sont des applications de $W$ à $V \cup \{\#\}$. \\
+		
+	\end{definition}
+	
+	\subsubsection{Derivation modes}
+	\textbf{Dérivation séquentielle}: Chaque étape de dérivation exactement une règle est appliquée à un seul objet.\\
+	
+	\textbf{Dérivation maximal (mode $t$)}: On dit que le tableau $p$ dérive un tableau $q$ en mode terminal ou en mode $t$ et on écrit $p \overset{t}\Longrightarrow q $ si $ p \overset{*}\Longrightarrow q $ et $ \nexists s \; \text{tel que} \; q \Longrightarrow s$. \\
+	
+	\textbf{Dérivation en parallèle}: Chaque étape de dérivation on applique une règle parmi toutes les règles qui peuvent être appliquée a différents objets (à chaque pas tous les objets qui peuvent évoluer doivent évoluer).\\
+	
+	\subsubsection{Exemple}
+	Soit $G_{1} = (\{m,n\}^{*2}, \{m,n\}^{*2}, P , \mathcal{A}_{0}, \Longrightarrow_{G1})$, Avec $\mathcal{A}_{0} = $
+	{\begin{tabular}{ccc}
+			m  \\
+			m & m  
+	\end{tabular}}, pour une représentation graphique des règles dans $P$, on utilise la convention que les symboles des deux tableaux $\mathcal{A}_{1}, \; \mathcal{A}_{2}$ dans la production du tableau contextuel  $I(\mathcal{A}_{1},\mathcal{A}_{2})$ sont représentés dans un tableau et ceux de $\mathcal{A}_{1}$ sont marqués par un cadre : \\
+	
+	\begingroup
+	\setlength{\tabcolsep}{3pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{1.2}
+	\centering
+	$p_{1} = $  {\begin{tabular}{ccc}
+			m  \\
+			\fbox{m}  \\
+			\fbox{m}  
+	\end{tabular}} , 
+	$p_{2} = $  {\begin{tabular}{ccc}
+			m   & \fbox{m}  & \fbox{m}  
+	\end{tabular}} , 
+	$p_{3} = $  {\begin{tabular}{ccc}
+			n & n \\
+			\fbox{m}  \\
+			\fbox{m}   
+	\end{tabular}} , 
+	$p_{4} = $  {\begin{tabular}{ccc}
+			& & n \\
+			\fbox{m}  & 	\fbox{m} & 	n \\ 
+	\end{tabular}} , 
+	$p_{5} = $  {\begin{tabular}{ccc}
+			\fbox{n}  & 	\fbox{n} & 	n 
+	\end{tabular}} ,\\
+	$p_{6} = $  {\begin{tabular}{ccc}
+			n \\ 
+			\fbox{n} \\
+			\fbox{n} 
+	\end{tabular}} , 
+	$p_{7} = $  {\begin{tabular}{ccc} 
+			\fbox{n} & \fbox{n} & m \\
+			&          &      \fbox{m} 
+	\end{tabular}} \\
+	\endgroup 
+	\vspace{5mm}
+	Partant de l'axiome $\mathcal{A}_{0}$, on peut monter en utilisant la règle $p_{1} \; p - 3$ fois et aller vers la droite en utilisant la règle $p_{2} \; q - 3$ fois, où $p , q \geq 3$ peut être choisi arbitrairement. Ensuite, nous tournons vers la droite à partir de la ligne verticale en utilisant une fois la règle $p_{3}$ et remonter à partir de la ligne horizontale en utilisant une fois la règle $p_{4}$, respectivement , dans les deux cas, les symboles $n$ sont ajoutés aux lignes croissantes des symboles $m$, après les règles $p_{1} , p_{2} , p_{3}$ et $p_{4}$ ne peut plus être appliqué. Les règles $p_{5}$ et $p_{6}$ complètent alors le bord supérieur et le bord droit du rectangle. La dérivation ne s'arrête que si la règle $p_{7}$ est appliquée à la fin. \\
+	
+	La grammaire $G_{2} = (\{\bar{R}, T , F\}^{*2} ,\{\bar{R}, T , F\}^{*2}, P, \mathcal{A}_{0}, \Longrightarrow_{G_{2}} )$ génère un langage matriciel de carrés remplis par le symbole $T$, recouvert d'une couche de symboles $F$, le centre étant marquée par le symbole $\bar{R}$ : \\
+
+\begingroup
+\centering{
+	\setlength{\tabcolsep}{3pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{1.2}
+	$\mathcal{A}_{0}= $  {\begin{tabular}{ccccc}
+			& T & T & T & T  \\
+			T & T & T & T & T \\
+			T & T & $\bar{R}$ & T & T \\ 
+			T & T & T & T & T \\
+			T & T & T & T & T 
+	\end{tabular}} 
+	$\overset{t}\Longrightarrow_{G_{2}}$
+	{\begin{tabular}{ccccccc}
+			F & F & \dots & F & \dots & F & F\\
+			F & T & \dots & T & \dots & T & F\\
+			\vdots & \vdots &  & \vdots & & \vdots & \vdots\\
+			F & T & \dots  & $\bar{R}$ & \dots & T & F \\
+			\vdots & \vdots &  & \vdots & & \vdots & \vdots\\
+			F & T & \dots & T & \dots & T & F\\
+			F & F & \dots & F & \dots & F & F\\
+\end{tabular}}} \\
+\endgroup
+\vspace{5mm}
+Les tableaux finaux sont construits de manière à ce que, partant de l'axiome, couche par couche, une autre couche de symboles T soit ajoutée, en appliquant les règles $p_{0}$ à $p_{7}$ ; la dernière couche de symboles $F$ est ajoutée en utilisant les règles $q_{0}$ à $q_{8}$. Ainsi, $P$ contient les règles contextuelles suivantes: \\
+
+\begin{center}
+	\begingroup
+	\setlength{\tabcolsep}{3pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{1.4} 
+	
+	$p_{0} = $  {\begin{tabular}{cccc}
+			T & T  \\
+			T & \fbox{T}  \\
+			\fbox{T} & \fbox{T}  
+	\end{tabular}} , 
+	$q_{0} = $  {\begin{tabular}{ccc}
+			F & F \\
+			T & \fbox{T} \\
+			\fbox{T} & \fbox{T}
+	\end{tabular}}, 
+	$p_{1} = $  {\begin{tabular}{cccc}
+			\fbox{T} & T \\
+			\fbox{T} & \fbox{T} & \fbox{T}    
+	\end{tabular}}, 
+	$q_{1} = $  {\begin{tabular}{cccc}
+			\fbox{F} & F \\
+			\fbox{T} & \fbox{T} & \fbox{T}
+	\end{tabular}}, \\
+	$p_{2} = $  {\begin{tabular}{cccc}
+			\fbox{T} & T & T\\
+			\fbox{T} & \fbox{T} & T    
+	\end{tabular}}, 
+	$q_{2} = $  {\begin{tabular}{cccc}
+			\fbox{F} & F & F \\
+			\fbox{T} & \fbox{T} & F
+	\end{tabular}},
+	$p_{3} = $  {\begin{tabular}{cccc}
+			\fbox{T} & \fbox{T}\\
+			\fbox{T} & T \\    
+			\fbox{T} &     
+	\end{tabular}}, 
+	$q_{3} = $  {\begin{tabular}{cccc}
+			\fbox{T} & \fbox{F}\\
+			\fbox{T} & F \\    
+			\fbox{T} &     
+	\end{tabular}}, \\
+	$p_{4} = $  {\begin{tabular}{cccc}
+			\fbox{T} & \fbox{T}\\
+			\fbox{T} & T \\    
+			T & T    
+	\end{tabular}}, 
+	$q_{4} = $  {\begin{tabular}{cccc}
+			\fbox{T} & \fbox{F}\\
+			\fbox{T} & F \\    
+			T & F    
+	\end{tabular}}, 
+	$p_{5} = $  {\begin{tabular}{cccc}
+			\fbox{T} & \fbox{T} & \fbox{T}\\
+			& T & \fbox{T}
+	\end{tabular}}, 
+	$q_{5} = $  {\begin{tabular}{cccc}
+			\fbox{T} & \fbox{T} & \fbox{T}\\
+			& F & \fbox{F}
+	\end{tabular}},\\
+	$p_{6} = $  {\begin{tabular}{cccc}
+			T & \fbox{T} & \fbox{T}\\
+			T & T & \fbox{T}
+	\end{tabular}},
+	$q_{6} = $  {\begin{tabular}{cccc}
+			F & \fbox{T} & \fbox{T}\\
+			F & F & \fbox{F}
+	\end{tabular}},
+	$p_{7} = $  {\begin{tabular}{cccc}
+			& \fbox{T} \\
+			T & \fbox{T} \\
+			\fbox{T} & \fbox{T}
+	\end{tabular}}, 
+	$q_{7} = $  {\begin{tabular}{cccc}
+			F & \fbox{T} \\
+			\fbox{F} & \fbox{T}
+	\end{tabular}}, 
+	$q_{8} = $  {\begin{tabular}{cccc}
+			F & \fbox{F} \\
+			\fbox{F} & \fbox{T} \\
+	\end{tabular}}.
+	\endgroup
+\end{center} 
+	Une dérivation dans $G_{2}$ s'arrête si et seulement si on finit par appliquer la règle $q_{8}$. \\
+	
+	
+	
+	\subsection{Conversion aTAM $\rightarrow$ grammaire de tableaux}
+	\begin{theorem}
+		Soit $S=(T,\sigma,1)$ un système aTAM où $T$ est un ensemble de type de tuile. Il existe une grammaire de tableaux   $G = (E, A , P, \mathcal{A}_{0}, \Longrightarrow_{G} )$, où $E$ est l'ensemble de notre tuiles,$A \subseteq E$, $P$ est notre ensemble de règles de réécriture et $A_{0}$ est notre graine, telle que chaque assemblage de $S$ peut être obtenu dans G avec le mode séquentiel et chaque tableau obtenu dans $G$ peut être obtenu dans $S$.\\
+	\end{theorem}
+	\subsubsection{Preuve}
+	\begin{proof}\renewcommand{\qedsymbol}{}
+		Soit $t \in T$ une tuile et $g_{s}$ sa colle sud, pour simuler l'attachement de cette tuile à l'assemblage nous rajouterons à $G$ les règles {\begin{tabular}{ccc}
+				\fbox{t}  \\
+				A
+		\end{tabular}}, pour chaque $A \in T$ dont la colle nord est $g_{s}$\\
+		
+		Soit $t \in T$ une tuile et $g_{n}$ sa colle nord, pour simuler l'attachement de cette tuile à l'assemblage nous rajouterons à $G$ les règles {\begin{tabular}{ccc}
+				A \\
+				\fbox{t}
+				
+		\end{tabular}}, pour chaque $A \in T$ dont la colle sud est $g_{n}$\\
+		
+		Soit $t \in T$ une tuile et $g_{e}$ sa colle est, pour simuler l'attachement de cette tuile à l'assemblage nous rajouterons à $G$ les règles {\begin{tabular}{cc}
+				\fbox{t} & A \\
+		\end{tabular}}, pour chaque $A \in T$ dont la colle ouest est $g_{e}$ \\
+		
+		
+		Soit $t \in T$ une tuile et $g_{o}$ sa colle ouest, pour simuler l'attachement de cette tuile à l'assemblage nous rajouterons à $G$ les règles {\begin{tabular}{cc}
+				A & \fbox{t} \\
+		\end{tabular}}, pour chaque $A \in T$ dont la colle ouest est $g_{o}$ \\
+	\end{proof}
+	
+	\begin{lemma}
+		On prend pas la rotation des tuiles en compte, à la place on peut multiplier la tuile par 4 en changeant les directions Nord, Sud, Est, Ouest\\
+	\end{lemma}
+	\section{Conclusion}
+	L'incroyable croissance de la nanotechnologie de l'ADN a commencé avec la découverte de Ned Seeman.\\
+	
+	Aujourd'hui L'ADN peut faire plus que transporter des informations génétiques, les outils disponibles pour ceux qui travaillent dans ce domaine se sont développés pour inclure une importante bibliothèque de nanostructures à base d'ADN avec des périodicités, des caractéristiques et des structures programmables.\\
+	
+	Les principes de conception se sont adaptés pour que les nanostructures d'ADN avec de nouvelles formes arbitraires puissent se réalisé en quelques semaines.\\
+	
+	Malgré les progrès significatifs et la puissance de la nanofabrication à base d'ADN, certains problèmes restent à résoudre par exemple on a constaté que les erreurs d'assemblage augmentaient quand le nombre de types de tuiles augmente.\\
+	
+	Les stratégies de relecture ou de correction des erreurs pendant et après l'assemblage devront être développées, même si des nanostructures peuvent être assemblés avec des taux d'erreur minimaux, des défis spécifiques associés à chaque application particulière devront être relevés.\\ 
+	
+	Les grammaires des tableaux sont un outils puissant pour représenter l'assemblage des structures basé sur l'ADN plus facilement et nous permettre de prouver des résultats théoriques.\\
+	 \pagebreak
+	 \section{Bilan de stage}
+	 À l’heure de bilan, je dirais que ce stage a été une expérience très enrichissante  tant sur le plan professionnel que personnel. J’ai pu découvrir le domaine de la recherche et de comprendre de manière globale les missions et les difficultés que les chercheurs pouvaient rencontrer. J’ai eu la chance de travailler sur un sujet intéressant qui m’a permis d’avoir une idée sur le monde de la biologie et sur l’utilisation des outils informatique et langages formels dans ce domaine. 
+	 \subsection{Compétences acquises}
+	 \begin{enumerate}
+	 	\item Communication orale : restitution de travaux en réunion avec d'autres chercheurs qualifiés.
+	 	\item Veille documentaire et rédaction des rapports scientifiques et mathématiques en LateX.
+	 	\item Capacités d'analyse de résultat.
+	 	\item Un anglais scientifique et technique.
+	 	\item Connaissances en informatique théorique, biologie et bioinformatique.
+	 	\item Maîtrise des notions de base en langage de programmation Racket
+	 	\item Travail en équipe.
+	 \end{enumerate} 
+	 \subsection{Difficultés rencontrées et leur résolution}
+	 \begin{enumerate}
+	 	\item Nouveau vocabulaire scientifique (en anglais) et termes difficile à comprendre  $\rightarrow$ Documentation et recherche des définitions. 
+	 	\item Peu d'informations sur les grammaires de tableaux $\rightarrow$ Analyse des définitions apparues dans des rapports en anglais et comprendre leurs fonctionnement.  
+	 \end{enumerate} 
+ 
+	Ce stage m'a beaucoup inspiré et motivé pour continuer à faire de la recherche, je sais que je garderais toujours la possibilité de faire une thèse à l'avenir. 
+	
+	
+	
+\end{document}
